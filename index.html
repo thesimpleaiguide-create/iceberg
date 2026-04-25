@@ -21,7 +21,6 @@
             height: 100vh;
             width: 100vw;
             position: relative;
-            /* Updated extension to .jpeg to match your filename */
             background-image: url('iceberg.jpeg');
             background-size: cover;
             background-position: center;
@@ -124,32 +123,19 @@
             font-weight: bold;
             font-size: 1.4rem;
         }
-
-        .section-title {
-            position: absolute;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 0.9rem;
-            opacity: 0.6;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body class="p-0 m-0">
 
     <div class="iceberg-container">
-        <div class="section-title top-[5%] left-[5%] text-slate-800">Visible Behaviours</div>
-        <div class="section-title bottom-[5%] right-[5%] text-sky-100">Hidden Drivers</div>
-
         <!-- Visible Behaviours (Above Water) -->
         <div class="absolute top-[12%] left-[12%] label-text">Interrupting</div>
         <div class="absolute top-[22%] left-[4%] label-text">Anger</div>
-        <div class="absolute top-[34%] left-[8%] label-text">Raised Voice</div>
+        <div class="absolute top-[28%] left-[8%] label-text">Raised Voice</div>
         <div class="absolute top-[18%] left-[68%] label-text">Frustration</div>
         <div class="absolute top-[6%] left-[38%] label-text">Manipulative, Entitled or Demanding</div>
         <div class="absolute top-[26%] left-[72%] label-text">Sighing and Eye Rolling</div>
-        <div class="absolute top-[33%] left-[64%] label-text">Invading your space</div>
+        <div class="absolute top-[28%] left-[64%] label-text">Invading your space</div>
 
         <!-- Hidden Drivers (Below Water) -->
         <div class="static-label top-[46%] left-[6%] interactive-label" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
