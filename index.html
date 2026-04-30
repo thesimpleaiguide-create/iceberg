@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #002a54; /* Fallback color matching the deep ocean */
+            background-color: #002a54; /* Fallback color */
         }
 
         .iceberg-container {
@@ -27,7 +27,7 @@
             background-repeat: no-repeat;
         }
 
-        /* Hidden Drivers Labels - Large White Text */
+        /* Hidden Drivers Labels - White Text */
         .static-label {
             color: rgba(255, 255, 255, 1);
             font-size: 1.8rem;
@@ -53,7 +53,7 @@
             text-underline-offset: 8px;
         }
 
-        /* Visible Behaviours Labels - Large Dark Text */
+        /* Visible Behaviours Labels - Dark Text */
         .label-text {
             color: #1a1a1a; 
             font-size: 1.7rem;
@@ -65,7 +65,7 @@
             z-index: 20;
         }
 
-        /* Detail Panel - Appears on hover */
+        /* Detail Panel */
         .detail-panel {
             position: fixed;
             right: 40px;
@@ -123,50 +123,33 @@
             font-weight: bold;
             font-size: 1.4rem;
         }
-
-        /* New Animation Styles */
-        @keyframes flyInHorizontal {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .animate-fly-in {
-            /* 'both' ensures the element stays hidden (0% opacity) before its delay starts */
-            animation: flyInHorizontal 1.5s cubic-bezier(0.25, 1, 0.5, 1) both;
-        }
     </style>
 </head>
 <body class="p-0 m-0">
 
     <div class="iceberg-container">
-        <!-- Visible Behaviours (Above Water) - Fly in first -->
-        <div class="absolute top-[5%] right-[6%] label-text animate-fly-in" style="animation-delay: 0.2s;">Manipulative, Entitled or Demanding</div>
-        <div class="absolute top-[16%] left-[6%] label-text animate-fly-in" style="animation-delay: 0.5s;">Interrupting</div>
-        <div class="absolute top-[16%] left-[26%] label-text animate-fly-in" style="animation-delay: 0.8s;">Frustration</div> 
-        <div class="absolute top-[16%] right-[6%] label-text animate-fly-in" style="animation-delay: 1.1s;">Invading your space</div> 
-        <div class="absolute top-[28%] left-[6%] label-text animate-fly-in" style="animation-delay: 1.4s;">Anger</div>
-        <div class="absolute top-[28%] left-[26%] label-text animate-fly-in" style="animation-delay: 1.7s;">Raised Voice</div>
-        <div class="absolute top-[28%] right-[6%] label-text animate-fly-in" style="animation-delay: 2.0s;">Sighing and Eye Rolling</div> 
+        <!-- Visible Behaviours (Above Water) -->
+        <div class="absolute top-[12%] left-[12%] label-text">Interrupting</div>
+        <div class="absolute top-[20%] left-[4%] label-text">Anger</div> <!-- Moved up slightly from 22% -->
+        <div class="absolute top-[28%] left-[8%] label-text">Raised Voice</div>
+        <div class="absolute top-[18%] left-[28%] label-text">Frustration</div> 
+        <div class="absolute top-[6%] left-[38%] label-text">Manipulative, Entitled or Demanding</div>
+        <div class="absolute top-[28%] left-[68%] label-text">Sighing and Eye Rolling</div> 
+        <div class="absolute top-[18%] left-[68%] label-text">Invading your space</div> 
 
-        <!-- Hidden Drivers (Below Water) - Fly in after top finishes -->
-        <div class="static-label top-[46%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 2.8s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
-        <div class="static-label top-[56%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 3.1s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
-        <div class="static-label top-[68%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 3.4s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
-        <div class="static-label top-[80%] left-[10%] interactive-label animate-fly-in" style="animation-delay: 3.7s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame and Embarrassment</div>
+        <!-- Hidden Drivers (Below Water) -->
+        <div class="static-label top-[46%] left-[6%] interactive-label" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
+        <div class="static-label top-[56%] left-[2%] interactive-label" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
+        <div class="static-label top-[68%] left-[6%] interactive-label" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
+        <div class="static-label top-[80%] left-[10%] interactive-label" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame and Embarrassment</div>
 
-        <div class="static-label top-[48%] right-[6%] animate-fly-in" style="animation-delay: 4.0s;">Feeling Unheard</div>
-        <div class="static-label top-[58%] right-[2%] animate-fly-in" style="animation-delay: 4.3s;">Genuine Pain and Distress</div>
-        <div class="static-label top-[70%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 4.6s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past traumatic experiences</div>
-        <div class="static-label top-[82%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 4.9s;" onmouseenter="showData('unheard')" onmouseleave="hideData()">Feeling unheard or powerless</div>
+        <div class="static-label top-[48%] right-[6%]">Feeling Unheard</div>
+        <div class="static-label top-[58%] right-[2%]">Genuine Pain and Distress</div>
+        <div class="static-label top-[70%] right-[2%] interactive-label" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past traumatic experiences</div>
+        <div class="static-label top-[82%] right-[6%] interactive-label" onmouseenter="showData('unheard')" onmouseleave="hideData()">Feeling unheard or powerless</div>
     </div>
 
-    <!-- Detail Overlay Panel -->
+    <!-- Hover Detail Panel -->
     <div id="detailPanel" class="detail-panel">
         <h2 id="panelHeading">Heading</h2>
         <ul id="panelList"></ul>
