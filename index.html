@@ -22,8 +22,7 @@
             width: 100vw;
             position: relative;
             background-color: #a5d8ff;
-            /* Using standard filename from GitHub */
-            background-image: url('iceberg.jpeg');
+            background-image: url('https://thesimpleaiguide-create.github.io/iceberg/iceberg.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -129,9 +128,10 @@
             visibility: hidden;
         }
 
+        /* Start sequence exactly 10s after play begins */
         body.is-playing .animate-fly-in {
             visibility: visible;
-            animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) both;
         }
 
         /* Skip functionality for user control */
@@ -206,7 +206,7 @@
 </head>
 <body class="p-0 m-0">
 
-    <audio id="narrationAudio" src="updated_narrative.wav" preload="auto"></audio>
+    <audio id="narrationAudio" src="https://thesimpleaiguide-create.github.io/iceberg/updated_narrative.wav" preload="auto"></audio>
 
     <div id="startOverlay">
         <h1 class="text-white text-3xl font-bold mb-8 uppercase tracking-widest">Iceberg Metaphor Module</h1>
@@ -217,28 +217,28 @@
         <!-- POSITIONING: Cleared peak logic applied -->
         
         <!-- Row 1: Top Right Column -->
-        <div class="absolute top-[6%] right-[3%] label-text animate-fly-in" style="animation-delay: 10.2s;">Manipulative, Entitled or Demanding</div>
+        <div class="absolute top-[6%] right-[3%] label-text animate-fly-in" style="animation-delay: 10.0s;">Manipulative, Entitled or Demanding</div>
         
         <!-- Row 2: Clearing Peak -->
-        <div class="absolute top-[18%] left-[5%] label-text animate-fly-in" style="animation-delay: 10.5s;">Interrupting</div>
-        <div class="absolute top-[20%] left-[36%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
-        <div class="absolute top-[18%] right-[5%] label-text animate-fly-in" style="animation-delay: 11.1s;">Invading your space</div> 
+        <div class="absolute top-[12%] left-[5%] label-text animate-fly-in" style="animation-delay: 10.4s;">Interrupting</div>
+        <div class="absolute top-[12%] left-[25%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
+        <div class="absolute top-[12%] right-[5%] label-text animate-fly-in" style="animation-delay: 11.2s;">Invading your space</div> 
         
         <!-- Row 3: Clearing Peak -->
-        <div class="absolute top-[32%] left-[5%] label-text animate-fly-in" style="animation-delay: 11.4s;">Anger</div>
-        <div class="absolute top-[34%] left-[36%] label-text animate-fly-in" style="animation-delay: 11.7s;">Raised Voice</div>
-        <div class="absolute top-[32%] right-[5%] label-text animate-fly-in" style="animation-delay: 12.0s;">Sighing and Eye Rolling</div> 
+        <div class="absolute top-[24%] left-[5%] label-text animate-fly-in" style="animation-delay: 11.6s;">Anger</div>
+        <div class="absolute top-[24%] left-[25%] label-text animate-fly-in" style="animation-delay: 12.0s;">Raised Voice</div>
+        <div class="absolute top-[24%] right-[5%] label-text animate-fly-in" style="animation-delay: 12.4s;">Sighing and Eye Rolling</div> 
 
         <!-- Hidden Drivers (Below Water) -->
-        <div class="static-label top-[46%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 12.8s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
-        <div class="static-label top-[56%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.1s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
-        <div class="static-label top-[68%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.4s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
-        <div class="static-label top-[80%] left-[10%] interactive-label animate-fly-in" style="animation-delay: 13.7s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame and Embarrassment</div>
+        <div class="static-label top-[48%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.0s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
+        <div class="static-label top-[58%] left-[7%] interactive-label animate-fly-in" style="animation-delay: 13.3s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
+        <div class="static-label top-[70%] left-[10%] interactive-label animate-fly-in" style="animation-delay: 13.6s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
+        <div class="static-label top-[82%] left-[8%] interactive-label animate-fly-in" style="animation-delay: 13.9s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame and Embarrassment</div>
         
-        <div class="static-label top-[48%] right-[6%] animate-fly-in" style="animation-delay: 14.0s;">Feeling Unheard</div>
-        <div class="static-label top-[58%] right-[2%] animate-fly-in" style="animation-delay: 14.3s;">Genuine Pain and Distress</div>
-        <div class="static-label top-[70%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.6s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past traumatic experiences</div>
-        <div class="static-label top-[82%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 14.9s;" onmouseenter="showData('unheard')" onmouseleave="hideData()">Feeling unheard or powerless</div>
+        <div class="static-label top-[48%] right-[6%] animate-fly-in" style="animation-delay: 14.2s;">Feeling Unheard</div>
+        <div class="static-label top-[58%] right-[2%] animate-fly-in" style="animation-delay: 14.5s;">Genuine Pain and Distress</div>
+        <div class="static-label top-[70%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.8s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past traumatic experiences</div>
+        <div class="static-label top-[82%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 15.1s;" onmouseenter="showData('unheard')" onmouseleave="hideData()">Feeling unheard or powerless</div>
     </div>
 
     <div id="bottomControls">
