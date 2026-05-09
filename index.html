@@ -6,322 +6,95 @@
     <title>Iceberg Visual: Healthcare Context</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Import Montserrat with Regular(400) and Bold(700) weights */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #002a54; /* Fallback color */
-        }
-
-        .iceberg-container {
-            height: 100vh;
-            width: 100vw;
-            position: relative;
-            background-image: url('iceberg.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        /* Hidden Drivers Labels - White Text */
-        .static-label {
-            color: rgba(255, 255, 255, 1);
-            font-size: 1.8rem;
-            font-weight: 400;
-            position: absolute;
-            max-width: 450px;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.01em;
-            line-height: 1.2;
-            transition: color 0.2s ease;
-            z-index: 30;
-        }
-
-        /* Interactivity styling for specific headers */
-        .interactive-label {
-            cursor: pointer;
-            pointer-events: auto;
-        }
-        
-        .interactive-label:hover {
-            color: #a5d8ff;
-            text-decoration: underline;
-            text-underline-offset: 8px;
-        }
-
-        /* Visible Behaviours Labels - Dark Text */
-        .label-text {
-            color: #1a1a1a; 
-            font-size: 1.7rem;
-            font-weight: 400;
-            position: absolute;
-            pointer-events: none;
-            white-space: nowrap;
-            letter-spacing: -0.01em;
-            z-index: 20;
-        }
-
-        /* Detail Panel */
-        .detail-panel {
-            position: fixed;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%) translateX(20px);
-            width: 420px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 35px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 100;
-            border-left: 8px solid #004b8d;
-            pointer-events: none; 
-        }
-
-        .detail-panel.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(-50%) translateX(0);
-        }
-
-        .detail-panel h2 {
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: #004b8d;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .detail-panel ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .detail-panel li {
-            font-size: 1.15rem;
-            line-height: 1.4;
-            color: #1a1a1a;
-            margin-bottom: 18px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .detail-panel li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #004b8d;
-            font-weight: bold;
-            font-size: 1.4rem;
-        }
-
-        /* New Animation Styles */
-        @keyframes flyInHorizontal {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Elements start completely hidden */
-        .animate-fly-in {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        /* The animation triggers when 'is-playing' class is added to the body. Duration slowed to 2.5s */
-        body.is-playing .animate-fly-in {
-            visibility: visible;
-            animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        /* Start Overlay Styles */
-        #startOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 42, 84, 0.85);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px); /* Added for Safari support */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.5s ease;
-        }
-
-        .start-btn {
-            background-color: #a5d8ff;
-            color: #002a54;
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.2s, background-color 0.2s;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .start-btn:hover {
-            background-color: #ffffff;
-            transform: scale(1.05);
-        }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; overflow: hidden; background-color: #002a54; }
+        .iceberg-container { height: 100vh; width: 100vw; position: relative; background: linear-gradient(to bottom, #a5d8ff 0%, #a5d8ff 42%, #004b8d 42%, #002a54 100%), url('iceberg.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .label-text { color: #1a1a1a; font-size: 1.65rem; font-weight: 400; position: absolute; pointer-events: none; white-space: nowrap; letter-spacing: -0.01em; z-index: 20; text-shadow: 0 0 10px rgba(255,255,255,0.7), 0 0 5px rgba(255,255,255,0.4); }
+        .static-label { color: #ffffff; font-size: 1.8rem; font-weight: 400; position: absolute; max-width: 450px; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); letter-spacing: 0.01em; line-height: 1.2; z-index: 30; }
+        .interactive-label { cursor: pointer; pointer-events: auto; transition: color 0.3s ease, transform 0.3s ease; }
+        .interactive-label:hover { color: #a5d8ff; transform: scale(1.05); }
+        .detail-panel { position: fixed; right: 40px; top: 50%; transform: translateY(-50%) translateX(20px); width: 420px; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 12px; padding: 35px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 100; border-left: 8px solid #004b8d; pointer-events: none; }
+        .detail-panel.active { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0); }
+        .detail-panel h2 { font-weight: 700; font-size: 1.4rem; color: #004b8d; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .detail-panel ul { list-style: none; padding: 0; margin: 0; }
+        .detail-panel li { font-size: 1.15rem; line-height: 1.4; color: #1a1a1a; margin-bottom: 18px; padding-left: 25px; position: relative; }
+        .detail-panel li::before { content: "•"; position: absolute; left: 0; color: #004b8d; font-weight: bold; font-size: 1.4rem; }
+        @keyframes flyInHorizontal { 0% { opacity: 0; transform: translateX(-100px); } 100% { opacity: 1; transform: translateX(0); } }
+        .animate-fly-in { opacity: 0; visibility: hidden; }
+        body.is-playing .animate-fly-in { visibility: visible; animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        body.skip-delay .animate-fly-in { animation-delay: 0s !important; animation-duration: 0.8s; }
+        #startOverlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 42, 84, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.6s ease, visibility 0.6s ease; }
+        .start-btn { background-color: #a5d8ff; color: #002a54; padding: 18px 50px; font-size: 1.6rem; font-weight: 700; border-radius: 50px; cursor: pointer; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        .start-btn:hover { background-color: #ffffff; transform: scale(1.05); }
+        #bottomControls { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 40px; z-index: 50; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+        body.is-playing #bottomControls { opacity: 1; pointer-events: auto; }
+        .control-link { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; transition: color 0.2s ease; background: none; border: none; border-bottom: 1px solid transparent; padding: 5px; }
+        .control-link:hover { color: #ffffff; border-bottom: 1px solid #ffffff; }
     </style>
 </head>
 <body class="p-0 m-0">
-
-    <!-- Audio Element matched exactly to your GitHub repository -->
-    <audio id="narrationAudio" src="./iceberg_narration.wav" preload="auto"></audio>
-
-    <!-- Start Overlay -->
+    <audio id="narrationAudio" src="./updated_narrative.wav" preload="auto"></audio>
     <div id="startOverlay">
+        <h1 class="text-white text-3xl font-bold mb-8 text-center px-4 tracking-wide uppercase">Iceberg Metaphor Module</h1>
         <button class="start-btn" onclick="startExperience()">Begin Module</button>
     </div>
-
     <div class="iceberg-container">
-        <!-- Visible Behaviours (Above Water) - 10 second delay for text fly-in -->
-        <div class="absolute top-[5%] right-[6%] label-text animate-fly-in" style="animation-delay: 10.2s;">Manipulative, Entitled or Demanding</div>
-        <div class="absolute top-[16%] left-[6%] label-text animate-fly-in" style="animation-delay: 10.5s;">Interrupting</div>
-        <div class="absolute top-[16%] left-[26%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
-        <div class="absolute top-[16%] right-[6%] label-text animate-fly-in" style="animation-delay: 11.1s;">Invading your space</div> 
-        <div class="absolute top-[28%] left-[6%] label-text animate-fly-in" style="animation-delay: 11.4s;">Anger</div>
-        <div class="absolute top-[28%] left-[26%] label-text animate-fly-in" style="animation-delay: 11.7s;">Raised Voice</div>
-        <div class="absolute top-[28%] right-[6%] label-text animate-fly-in" style="animation-delay: 12.0s;">Sighing and Eye Rolling</div> 
+        <!-- Manipulative moved to the absolute top-right -->
+        <div class="absolute top-[5%] right-[2%] label-text animate-fly-in" style="animation-delay: 10.2s;">Manipulative, Entitled or Demanding</div>
+        
+        <!-- Frustration and Raised Voice moved significantly right to clear the peak -->
+        <div class="absolute top-[18%] left-[4%] label-text animate-fly-in" style="animation-delay: 10.5s;">Interrupting</div>
+        <div class="absolute top-[19%] left-[36%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
+        <div class="absolute top-[18%] right-[4%] label-text animate-fly-in" style="animation-delay: 11.1s;">Invading your space</div> 
+        
+        <div class="absolute top-[31%] left-[4%] label-text animate-fly-in" style="animation-delay: 11.4s;">Anger</div>
+        <div class="absolute top-[32%] left-[36%] label-text animate-fly-in" style="animation-delay: 11.7s;">Raised Voice</div>
+        <div class="absolute top-[31%] right-[4%] label-text animate-fly-in" style="animation-delay: 12.0s;">Sighing and Eye Rolling</div> 
 
-        <!-- Hidden Drivers (Below Water) - 10 second delay for text fly-in -->
+        <!-- Hidden Drivers -->
         <div class="static-label top-[46%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 12.8s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
         <div class="static-label top-[56%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.1s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
         <div class="static-label top-[68%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.4s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
         <div class="static-label top-[80%] left-[10%] interactive-label animate-fly-in" style="animation-delay: 13.7s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame and Embarrassment</div>
-
         <div class="static-label top-[48%] right-[6%] animate-fly-in" style="animation-delay: 14.0s;">Feeling Unheard</div>
         <div class="static-label top-[58%] right-[2%] animate-fly-in" style="animation-delay: 14.3s;">Genuine Pain and Distress</div>
         <div class="static-label top-[70%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.6s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past traumatic experiences</div>
         <div class="static-label top-[82%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 14.9s;" onmouseenter="showData('unheard')" onmouseleave="hideData()">Feeling unheard or powerless</div>
     </div>
-
-    <!-- Hover Detail Panel -->
-    <div id="detailPanel" class="detail-panel">
-        <h2 id="panelHeading">Heading</h2>
-        <ul id="panelList"></ul>
+    <div id="bottomControls">
+        <button class="control-link" onclick="toggleMute()" id="muteToggle">Mute Audio</button>
+        <button class="control-link" onclick="skipAudio()">Skip Narration</button>
     </div>
-
+    <div id="detailPanel" class="detail-panel"><h2 id="panelHeading">Heading</h2><ul id="panelList"></ul></div>
     <script>
         const details = {
-            unmet: {
-                title: "Unmet needs:",
-                items: [
-                    "In genuine pain that is not being acknowledged",
-                    "Exhausted from poor sleep or chronic illness",
-                    "Hungry, cold or in an uncomfortable environment",
-                    "Feeling invisible or socially isolated",
-                    "Desperate for human connection as much as medical help"
-                ]
-            },
-            fear: {
-                title: "Fear and anxiety:",
-                items: [
-                    "Fear of a serious diagnosis they are not ready to hear",
-                    "Anxiety about a procedure or treatment",
-                    "Fear of being dismissed or not taken seriously",
-                    "Worry about a loved one rather than themselves",
-                    "Health anxiety that has been building for weeks or months",
-                    "Fear of losing control over their own health decisions"
-                ]
-            },
-            life: {
-                title: "Life circumstances:",
-                items: [
-                    "Caring for a sick relative while managing their own health",
-                    "Financial stress making every appointment feel high stakes",
-                    "Work pressure meaning this appointment has already cost them something",
-                    "Relationship breakdown or bereavement affecting their emotional resilience",
-                    "Mental health difficulties they have not disclosed"
-                ]
-            },
-            shame: {
-                title: "Shame and embarrassment:",
-                items: [
-                    "Embarrassment about their symptoms or lifestyle",
-                    "Shame about leaving it too long before coming",
-                    "Feeling judged about weight, drinking or mental health",
-                    "Pride making it hard to ask for help",
-                    "Fear of being seen as a time waster"
-                ]
-            },
-            trauma: {
-                title: "Past traumatic experiences:",
-                items: [
-                    "Previous negative experience with the NHS or this practice",
-                    "History of being ignored or misdiagnosed",
-                    "Trauma associated with hospitals or medical settings",
-                    "Cultural or historical mistrust of authority or healthcare systems",
-                    "A loved one who was let down by the system"
-                ]
-            },
-            unheard: {
-                title: "Feeling unheard or powerless:",
-                items: [
-                    "Repeated visits with no resolution",
-                    "Feeling like a number rather than a person",
-                    "Having been passed from department to department",
-                    "Believing nobody is really listening",
-                    "Feeling the system is working against them"
-                ]
-            }
+            unmet: { title: "Unmet needs:", items: ["In genuine pain that is not being acknowledged", "Exhausted from poor sleep or chronic illness", "Hungry, cold or in an uncomfortable environment", "Feeling invisible or socially isolated", "Desperate for human connection as much as medical help"] },
+            fear: { title: "Fear and anxiety:", items: ["Fear of a serious diagnosis they are not ready to hear", "Anxiety about a procedure or treatment", "Fear of being dismissed or not taken seriously", "Worry about a loved one rather than themselves", "Health anxiety that has been building for weeks or months", "Fear of losing control over their own health decisions"] },
+            life: { title: "Life circumstances:", items: ["Caring for a sick relative while managing their own health", "Financial stress making every appointment feel high stakes", "Work pressure meaning this appointment has already cost them something", "Relationship breakdown or bereavement affecting their emotional resilience", "Mental health difficulties they have not disclosed"] },
+            shame: { title: "Shame and embarrassment:", items: ["Embarrassment about their symptoms or lifestyle", "Shame about leaving it too long before coming", "Feeling judged about weight, drinking or mental health", "Pride making it hard to ask for help", "Fear of being seen as a time waster"] },
+            trauma: { title: "Past traumatic experiences:", items: ["Previous negative experience with the NHS or this practice", "History of being ignored or misdiagnosed", "Trauma associated with hospitals or medical settings", "Cultural or historical mistrust of authority or healthcare systems", "A loved one who was let down by the system"] },
+            unheard: { title: "Feeling unheard or powerless:", items: ["Repeated visits with no resolution", "Feeling like a number rather than a person", "Having been passed from department to department", "Believing nobody is really listening", "Feeling the system is working against them"] }
         };
-
         const panel = document.getElementById('detailPanel');
         const heading = document.getElementById('panelHeading');
         const list = document.getElementById('panelList');
-
+        const audio = document.getElementById('narrationAudio');
         function showData(key) {
             const data = details[key];
             if (!data) return;
-
             heading.innerText = data.title;
             list.innerHTML = data.items.map(item => `<li>${item}</li>`).join('');
             panel.classList.add('active');
         }
-
-        function hideData() {
-            panel.classList.remove('active');
-        }
-
+        function hideData() { panel.classList.remove('active'); }
+        function toggleMute() { audio.muted = !audio.muted; document.getElementById('muteToggle').innerText = audio.muted ? 'Unmute Audio' : 'Mute Audio'; }
+        function skipAudio() { audio.pause(); audio.currentTime = 0; document.body.classList.add('skip-delay'); }
         function startExperience() {
-            // Aggressively hide the overlay and remove the blur instantly
             const overlay = document.getElementById('startOverlay');
             overlay.style.opacity = '0';
-            overlay.style.backdropFilter = 'blur(0px)';
-            overlay.style.webkitBackdropFilter = 'blur(0px)';
-            overlay.style.pointerEvents = 'none'; // Instantly prevent clicks
-            setTimeout(() => { overlay.style.display = 'none'; }, 500);
-
-            // Play the narration audio IMMEDIATELY upon clicking
-            const audio = document.getElementById('narrationAudio');
-            if (audio) {
-                audio.currentTime = 0; // Force start at 0:00
-                audio.play().catch(e => console.error("Audio playback error:", e));
-            }
-
-            // Add class to body to trigger all the text fly-in animations (which are CSS delayed by 10s)
+            overlay.style.visibility = 'hidden';
+            setTimeout(() => { overlay.style.display = 'none'; }, 600);
+            if (audio) { audio.currentTime = 0; audio.play().catch(e => console.warn("Audio blocked.", e)); }
             document.body.classList.add('is-playing');
         }
     </script>
