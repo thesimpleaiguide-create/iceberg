@@ -136,8 +136,10 @@
 
         /* Skip functionality for user control */
         body.skip-delay .animate-fly-in {
-            animation-delay: 0s !important;
-            animation-duration: 0.8s;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateX(0) !important;
         }
 
         /* Start Button Overlay */
@@ -170,7 +172,7 @@
         /* Bottom Controls Bar */
         #bottomControls {
             position: fixed;
-            bottom: 25px;
+            bottom: 10px;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -188,7 +190,7 @@
 
         .control-link {
             color: rgba(255, 255, 255, 0.5);
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
             cursor: pointer;
@@ -209,36 +211,36 @@
     <audio id="narrationAudio" src="https://thesimpleaiguide-create.github.io/iceberg/updated_narrative.wav" preload="auto"></audio>
 
     <div id="startOverlay">
-        <h1 class="text-white text-3xl font-bold mb-8 uppercase tracking-widest">Iceberg Metaphor Module</h1>
         <button class="start-btn" onclick="startExperience()">Begin Module</button>
     </div>
 
     <div class="iceberg-container">
         <!-- POSITIONING: Cleared peak logic applied -->
         
-        <!-- Row 1: Top Right Column -->
-        <div class="absolute top-[6%] right-[3%] label-text animate-fly-in" style="animation-delay: 10.0s;">Manipulative, Entitled or Demanding</div>
+        <!-- Visible Behaviours (Above Water) - Contour aligned to iceberg peak -->
+        <div class="absolute top-[5%] left-[25%] label-text animate-fly-in" style="animation-delay: 10.0s;">Frustration</div> 
+        <div class="absolute top-[5%] right-[25%] label-text animate-fly-in" style="animation-delay: 10.4s;">Manipulative</div> 
         
-        <!-- Row 2: Clearing Peak -->
-        <div class="absolute top-[12%] left-[5%] label-text animate-fly-in" style="animation-delay: 10.4s;">Interrupting</div>
-        <div class="absolute top-[12%] left-[25%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
-        <div class="absolute top-[12%] right-[5%] label-text animate-fly-in" style="animation-delay: 11.2s;">Invading your space</div> 
+        <div class="absolute top-[14%] left-[18%] label-text animate-fly-in" style="animation-delay: 10.8s;">Raised Voice</div>
+        <div class="absolute top-[14%] right-[18%] label-text animate-fly-in" style="animation-delay: 11.2s;">Demanding</div> 
         
-        <!-- Row 3: Clearing Peak -->
-        <div class="absolute top-[24%] left-[5%] label-text animate-fly-in" style="animation-delay: 11.6s;">Anger</div>
-        <div class="absolute top-[24%] left-[25%] label-text animate-fly-in" style="animation-delay: 12.0s;">Raised Voice</div>
-        <div class="absolute top-[24%] right-[5%] label-text animate-fly-in" style="animation-delay: 12.4s;">Sighing and Eye Rolling</div> 
+        <div class="absolute top-[23%] left-[11%] label-text animate-fly-in" style="animation-delay: 11.6s;">Anger</div>
+        <div class="absolute top-[23%] right-[11%] label-text animate-fly-in" style="animation-delay: 12.0s;">Invading</div>
+        
+        <div class="absolute top-[32%] left-[4%] label-text animate-fly-in" style="animation-delay: 12.4s;">Interrupting</div>
+        <div class="absolute top-[32%] right-[4%] label-text animate-fly-in" style="animation-delay: 12.8s;">Eye rolling</div> 
 
         <!-- Hidden Drivers (Below Water) -->
-        <div class="static-label top-[48%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.0s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
-        <div class="static-label top-[58%] left-[7%] interactive-label animate-fly-in" style="animation-delay: 13.3s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
-        <div class="static-label top-[70%] left-[10%] interactive-label animate-fly-in" style="animation-delay: 13.6s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
-        <div class="static-label top-[82%] left-[8%] interactive-label animate-fly-in" style="animation-delay: 13.9s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame and Embarrassment</div>
+        <div class="static-label top-[48%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.0s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
+        <div class="static-label top-[58%] left-[4%] interactive-label animate-fly-in" style="animation-delay: 13.3s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear & Anxiety</div>
+        <div class="static-label top-[70%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.6s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
+        <div class="static-label top-[82%] left-[8%] interactive-label animate-fly-in" style="animation-delay: 13.9s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame & Embarrassment</div>
         
-        <div class="static-label top-[48%] right-[6%] animate-fly-in" style="animation-delay: 14.2s;">Feeling Unheard</div>
-        <div class="static-label top-[58%] right-[2%] animate-fly-in" style="animation-delay: 14.5s;">Genuine Pain and Distress</div>
-        <div class="static-label top-[70%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.8s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past traumatic experiences</div>
-        <div class="static-label top-[82%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 15.1s;" onmouseenter="showData('unheard')" onmouseleave="hideData()">Feeling unheard or powerless</div>
+        <!-- Reordered Right Side & Replaced 'and' with '&' -->
+        <div class="static-label top-[48%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.2s;" onmouseenter="showData('feelingUnheard')" onmouseleave="hideData()">Feeling Unheard</div>
+        <div class="static-label top-[58%] right-[4%] interactive-label animate-fly-in" style="animation-delay: 14.5s;" onmouseenter="showData('powerless')" onmouseleave="hideData()">Feeling Powerless</div>
+        <div class="static-label top-[70%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 14.8s;" onmouseenter="showData('distress')" onmouseleave="hideData()">Genuine Pain & Distress</div>
+        <div class="static-label top-[82%] right-[8%] interactive-label animate-fly-in" style="animation-delay: 15.1s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past Traumatic Experiences</div>
     </div>
 
     <div id="bottomControls">
@@ -249,13 +251,16 @@
     <div id="detailPanel" class="detail-panel"><h2 id="panelHeading">Heading</h2><ul id="panelList"></ul></div>
 
     <script>
+        // Updated titles with "&" and proper capitalization
         const details = {
-            unmet: { title: "Unmet needs:", items: ["In genuine pain that is not being acknowledged", "Exhausted from poor sleep or chronic illness", "Hungry, cold or in an uncomfortable environment", "Feeling invisible or socially isolated", "Desperate for human connection as much as medical help"] },
-            fear: { title: "Fear and anxiety:", items: ["Fear of a serious diagnosis they are not ready to hear", "Anxiety about a procedure or treatment", "Fear of being dismissed or not taken seriously", "Worry about a loved one rather than themselves", "Health anxiety that has been building for weeks or months", "Fear of losing control over their own health decisions"] },
-            life: { title: "Life circumstances:", items: ["Caring for a sick relative while managing their own health", "Financial stress making every appointment feel high stakes", "Work pressure meaning this appointment has already cost them something", "Relationship breakdown or bereavement affecting their emotional resilience", "Mental health difficulties they have not disclosed"] },
-            shame: { title: "Shame and embarrassment:", items: ["Embarrassment about their symptoms or lifestyle", "Shame about leaving it too long before coming", "Feeling judged about weight, drinking or mental health", "Pride making it hard to ask for help", "Fear of being seen as a time waster"] },
-            trauma: { title: "Past traumatic experiences:", items: ["Previous negative experience with the NHS or this practice", "History of being ignored or misdiagnosed", "Trauma associated with hospitals or medical settings", "Cultural or historical mistrust of authority or healthcare systems", "A loved one who was let down by the system"] },
-            unheard: { title: "Feeling unheard or powerless:", items: ["Repeated visits with no resolution", "Feeling like a number rather than a person", "Having been passed from department to department", "Believing nobody is really listening", "Feeling the system is working against them"] }
+            unmet: { title: "Unmet Needs:", items: ["In genuine pain that is not being acknowledged", "Exhausted from poor sleep or chronic illness", "Hungry, cold or in an uncomfortable environment", "Feeling invisible or socially isolated", "Desperate for human connection as much as medical help"] },
+            fear: { title: "Fear & Anxiety:", items: ["Fear of a serious diagnosis they are not ready to hear", "Anxiety about a procedure or treatment", "Fear of being dismissed or not taken seriously", "Worry about a loved one rather than themselves", "Health anxiety that has been building for weeks or months", "Fear of losing control over their own health decisions"] },
+            life: { title: "Life Circumstances:", items: ["Caring for a sick relative while managing their own health", "Financial stress making every appointment feel high stakes", "Work pressure meaning this appointment has already cost them something", "Relationship breakdown or bereavement affecting their emotional resilience", "Mental health difficulties they have not disclosed"] },
+            shame: { title: "Shame & Embarrassment:", items: ["Embarrassment about their symptoms or lifestyle", "Shame about leaving it too long before coming", "Feeling judged about weight, drinking or mental health", "Pride making it hard to ask for help", "Fear of being seen as a time waster"] },
+            trauma: { title: "Past Traumatic Experiences:", items: ["Previous negative experience with the NHS or this practice", "History of being ignored or misdiagnosed", "Trauma associated with hospitals or medical settings", "Cultural or historical mistrust of authority or healthcare systems", "A loved one who was let down by the system"] },
+            feelingUnheard: { title: "Feeling Unheard:", items: ["They have called multiple times and felt rushed or dismissed every time", "They have learned that raising their voice is the only way to be taken seriously", "Being passed between departments has destroyed any trust that someone will listen", "This frustration is rarely just about today. It is about every time before it"] },
+            distress: { title: "Genuine Pain & Distress:", items: ["Pain changes people. It affects patience and the ability to communicate calmly", "What sounds like aggression is often exhaustion", "They are already using every resource they have just to be present in this conversation", "Chronic pain makes even small obstacles feel insurmountable"] },
+            powerless: { title: "Feeling Powerless:", items: ["The healthcare system can feel vast and completely indifferent to the individual inside it", "Anger is often a response to powerlessness. It is the one thing they feel they can do", "They may have followed every process correctly and still ended up no further forward", "The reception desk can feel like the only place in the system where they have a voice"] }
         };
 
         const panel = document.getElementById('detailPanel');
