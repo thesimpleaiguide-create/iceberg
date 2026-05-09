@@ -6,171 +6,230 @@
     <title>Iceberg Visual: Healthcare Context</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* MANDATORY FONT: Montserrat */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
         
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            overflow: hidden; 
-            background-color: #002a54; 
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #002a54;
         }
 
-        .iceberg-container { 
-            height: 100vh; 
-            width: 100vw; 
-            position: relative; 
-            /* We use a fallback color and handle the image more robustly */
+        .iceberg-container {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
             background-color: #a5d8ff;
-            background-image: url('iceberg.jpeg'), url('iceberg.jpg'), url('Iceberg.jpeg');
-            background-size: cover; 
-            background-position: center; 
-            background-repeat: no-repeat; 
+            /* Using standard filename from GitHub */
+            background-image: url('iceberg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* Labels styling */
-        .label-text { 
+        /* Visible Behaviours Labels - Dark Text, High Visibility Glow */
+        .label-text {
             color: #1a1a1a; 
-            font-size: 1.65rem; 
-            font-weight: 400; 
-            position: absolute; 
-            pointer-events: none; 
-            white-space: nowrap; 
-            letter-spacing: -0.01em; 
-            z-index: 20; 
-            text-shadow: 0 0 10px rgba(255,255,255,0.7), 0 0 5px rgba(255,255,255,0.4); 
+            font-size: 1.6rem;
+            font-weight: 400;
+            position: absolute;
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: -0.01em;
+            z-index: 20;
+            text-shadow: 0 0 12px rgba(255,255,255,1), 0 0 6px rgba(255,255,255,0.8);
         }
 
-        .static-label { 
-            color: #ffffff; 
-            font-size: 1.8rem; 
-            font-weight: 400; 
-            position: absolute; 
-            max-width: 450px; 
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); 
-            letter-spacing: 0.01em; 
-            line-height: 1.2; 
-            z-index: 30; 
+        /* Hidden Drivers Labels - White Text, Dark Shadow */
+        .static-label {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 400;
+            position: absolute;
+            max-width: 450px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+            letter-spacing: 0.01em;
+            line-height: 1.2;
+            z-index: 30;
         }
 
-        .interactive-label { 
-            cursor: pointer; 
-            pointer-events: auto; 
-            transition: color 0.3s ease, transform 0.3s ease; 
+        .interactive-label {
+            cursor: pointer;
+            pointer-events: auto;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
         
-        .interactive-label:hover { 
-            color: #a5d8ff; 
-            transform: scale(1.05); 
+        .interactive-label:hover {
+            color: #a5d8ff;
+            transform: scale(1.05);
         }
 
-        /* Detail Panel */
-        .detail-panel { 
-            position: fixed; 
-            right: 40px; 
-            top: 50%; 
-            transform: translateY(-50%) translateX(20px); 
-            width: 420px; 
-            background: rgba(255, 255, 255, 0.98); 
-            backdrop-filter: blur(10px); 
-            border-radius: 12px; 
-            padding: 35px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
-            opacity: 0; 
-            visibility: hidden; 
-            transition: all 0.3s ease; 
-            z-index: 100; 
-            border-left: 8px solid #004b8d; 
+        /* Detail Panel styling */
+        .detail-panel {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%) translateX(20px);
+            width: 420px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border-left: 8px solid #004b8d;
             pointer-events: none; 
         }
 
-        .detail-panel.active { 
-            opacity: 1; 
-            visibility: visible; 
-            transform: translateY(-50%) translateX(0); 
+        .detail-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
         }
 
-        .detail-panel h2 { font-weight: 700; font-size: 1.4rem; color: #004b8d; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .detail-panel ul { list-style: none; padding: 0; margin: 0; }
-        .detail-panel li { font-size: 1.15rem; line-height: 1.4; color: #1a1a1a; margin-bottom: 18px; padding-left: 25px; position: relative; }
-        .detail-panel li::before { content: "•"; position: absolute; left: 0; color: #004b8d; font-weight: bold; font-size: 1.4rem; }
-
-        /* Animation */
-        @keyframes flyInHorizontal { 
-            0% { opacity: 0; transform: translateX(-100px); } 
-            100% { opacity: 1; transform: translateX(0); } 
+        .detail-panel h2 {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #004b8d;
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
-        .animate-fly-in { opacity: 0; visibility: hidden; }
-
-        body.is-playing .animate-fly-in { 
-            visibility: visible; 
-            animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; 
+        .detail-panel li {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
         }
 
-        body.skip-delay .animate-fly-in { 
-            animation-delay: 0s !important; 
-            animation-duration: 0.8s; 
+        .detail-panel li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #004b8d;
+            font-weight: bold;
+            font-size: 1.4rem;
         }
 
-        /* Overlay */
-        #startOverlay { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: rgba(0, 42, 84, 0.95); 
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; 
-            transition: opacity 0.6s ease, visibility 0.6s ease; 
+        /* LOGIC: Fly-in Animation with 10s wait */
+        @keyframes flyInHorizontal {
+            0% { opacity: 0; transform: translateX(-100px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
 
-        .start-btn { 
-            background-color: #a5d8ff; color: #002a54; padding: 18px 50px; 
-            font-size: 1.6rem; font-weight: 700; border-radius: 50px; 
-            cursor: pointer; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            transition: all 0.3s ease; 
+        .animate-fly-in {
+            opacity: 0;
+            visibility: hidden;
         }
 
-        .start-btn:hover { background-color: #ffffff; transform: scale(1.05); }
-
-        #bottomControls { 
-            position: fixed; bottom: 25px; width: 100%; 
-            display: flex; justify-content: center; gap: 40px; 
-            z-index: 50; opacity: 0; transition: opacity 0.5s ease; 
-            pointer-events: none; 
+        body.is-playing .animate-fly-in {
+            visibility: visible;
+            animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        body.is-playing #bottomControls { opacity: 1; pointer-events: auto; }
-
-        .control-link { 
-            color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; text-transform: uppercase; 
-            letter-spacing: 0.15em; cursor: pointer; transition: color 0.2s ease; 
-            background: none; border: none; border-bottom: 1px solid transparent; padding: 5px; 
+        /* Skip functionality for user control */
+        body.skip-delay .animate-fly-in {
+            animation-delay: 0s !important;
+            animation-duration: 0.8s;
         }
 
-        .control-link:hover { color: #ffffff; border-bottom: 1px solid #ffffff; }
+        /* Start Button Overlay */
+        #startOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 42, 84, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .start-btn {
+            background-color: #a5d8ff;
+            color: #002a54;
+            padding: 18px 50px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+        }
+
+        /* Bottom Controls Bar */
+        #bottomControls {
+            position: fixed;
+            bottom: 25px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        body.is-playing #bottomControls {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .control-link {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            background: none;
+            border: none;
+            border-bottom: 1px solid transparent;
+            padding: 5px;
+        }
+
+        .control-link:hover {
+            color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+        }
     </style>
 </head>
 <body class="p-0 m-0">
-    <!-- Using a relative path for GitHub compatibility -->
+
     <audio id="narrationAudio" src="updated_narrative.wav" preload="auto"></audio>
 
     <div id="startOverlay">
-        <h1 class="text-white text-3xl font-bold mb-8 text-center px-4 tracking-wide uppercase">Iceberg Metaphor Module</h1>
+        <h1 class="text-white text-3xl font-bold mb-8 uppercase tracking-widest">Iceberg Metaphor Module</h1>
         <button class="start-btn" onclick="startExperience()">Begin Module</button>
     </div>
 
     <div class="iceberg-container">
-        <!-- Behaviours (Above Water) - 10.2s start -->
-        <div class="absolute top-[5%] right-[2%] label-text animate-fly-in" style="animation-delay: 10.2s;">Manipulative, Entitled or Demanding</div>
+        <!-- POSITIONING: Cleared peak logic applied -->
         
-        <div class="absolute top-[18%] left-[4%] label-text animate-fly-in" style="animation-delay: 10.5s;">Interrupting</div>
-        <div class="absolute top-[19%] left-[36%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
-        <div class="absolute top-[18%] right-[4%] label-text animate-fly-in" style="animation-delay: 11.1s;">Invading your space</div> 
+        <!-- Row 1: Top Right Column -->
+        <div class="absolute top-[6%] right-[3%] label-text animate-fly-in" style="animation-delay: 10.2s;">Manipulative, Entitled or Demanding</div>
         
-        <div class="absolute top-[31%] left-[4%] label-text animate-fly-in" style="animation-delay: 11.4s;">Anger</div>
-        <div class="absolute top-[32%] left-[36%] label-text animate-fly-in" style="animation-delay: 11.7s;">Raised Voice</div>
-        <div class="absolute top-[31%] right-[4%] label-text animate-fly-in" style="animation-delay: 12.0s;">Sighing and Eye Rolling</div> 
+        <!-- Row 2: Clearing Peak -->
+        <div class="absolute top-[18%] left-[5%] label-text animate-fly-in" style="animation-delay: 10.5s;">Interrupting</div>
+        <div class="absolute top-[20%] left-[36%] label-text animate-fly-in" style="animation-delay: 10.8s;">Frustration</div> 
+        <div class="absolute top-[18%] right-[5%] label-text animate-fly-in" style="animation-delay: 11.1s;">Invading your space</div> 
+        
+        <!-- Row 3: Clearing Peak -->
+        <div class="absolute top-[32%] left-[5%] label-text animate-fly-in" style="animation-delay: 11.4s;">Anger</div>
+        <div class="absolute top-[34%] left-[36%] label-text animate-fly-in" style="animation-delay: 11.7s;">Raised Voice</div>
+        <div class="absolute top-[32%] right-[5%] label-text animate-fly-in" style="animation-delay: 12.0s;">Sighing and Eye Rolling</div> 
 
-        <!-- Drivers (Below Water) -->
+        <!-- Hidden Drivers (Below Water) -->
         <div class="static-label top-[46%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 12.8s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
         <div class="static-label top-[56%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.1s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear and Anxiety</div>
         <div class="static-label top-[68%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.4s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
@@ -216,18 +275,10 @@
         function skipAudio() { audio.pause(); audio.currentTime = 0; document.body.classList.add('skip-delay'); }
 
         function startExperience() {
-            const overlay = document.getElementById('startOverlay');
-            overlay.style.opacity = '0';
-            overlay.style.visibility = 'hidden';
-            setTimeout(() => { overlay.style.display = 'none'; }, 600);
-
+            document.getElementById('startOverlay').style.display = 'none';
             if (audio) {
                 audio.currentTime = 0;
-                audio.play().then(() => {
-                    console.log("Audio started successfully.");
-                }).catch(e => {
-                    console.error("Audio playback failed. Please check if 'updated_narrative.wav' exists in your root folder.", e);
-                });
+                audio.play().catch(e => console.warn("Audio play failed.", e));
             }
             document.body.classList.add('is-playing');
         }
