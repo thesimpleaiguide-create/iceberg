@@ -65,12 +65,10 @@
             transform: scale(1.05);
         }
 
-        /* Detail Panel styling */
+        /* Detail Panel styling - Supporting Left and Right positions */
         .detail-panel {
             position: fixed;
-            right: 40px;
             top: 50%;
-            transform: translateY(-50%) translateX(20px);
             width: 420px;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
@@ -81,11 +79,27 @@
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 100;
-            border-left: 8px solid #004b8d;
             pointer-events: none; 
         }
 
-        .detail-panel.active {
+        .detail-panel.on-right {
+            right: 40px;
+            left: auto;
+            transform: translateY(-50%) translateX(20px);
+            border-left: 8px solid #004b8d;
+            border-right: none;
+        }
+
+        .detail-panel.on-left {
+            left: 40px;
+            right: auto;
+            transform: translateY(-50%) translateX(-20px);
+            border-right: 8px solid #004b8d;
+            border-left: none;
+        }
+
+        .detail-panel.active.on-right,
+        .detail-panel.active.on-left {
             opacity: 1;
             visibility: visible;
             transform: translateY(-50%) translateX(0);
@@ -231,16 +245,16 @@
         <div class="absolute top-[32%] right-[10%] label-text animate-fly-in" style="animation-delay: 12.8s;">Eye rolling</div> 
 
         <!-- Hidden Drivers (Below Water) -->
-        <div class="static-label top-[48%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.0s;" onmouseenter="showData('unmet')" onmouseleave="hideData()">Unmet Needs</div>
-        <div class="static-label top-[58%] left-[4%] interactive-label animate-fly-in" style="animation-delay: 13.3s;" onmouseenter="showData('fear')" onmouseleave="hideData()">Fear & Anxiety</div>
-        <div class="static-label top-[70%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.6s;" onmouseenter="showData('life')" onmouseleave="hideData()">Life Circumstances</div>
-        <div class="static-label top-[82%] left-[8%] interactive-label animate-fly-in" style="animation-delay: 13.9s;" onmouseenter="showData('shame')" onmouseleave="hideData()">Shame & Embarrassment</div>
+        <div class="static-label top-[48%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.0s;" onmouseenter="showData('unmet', 'right')" onmouseleave="hideData()">Unmet Needs</div>
+        <div class="static-label top-[58%] left-[4%] interactive-label animate-fly-in" style="animation-delay: 13.3s;" onmouseenter="showData('fear', 'right')" onmouseleave="hideData()">Fear & Anxiety</div>
+        <div class="static-label top-[70%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.6s;" onmouseenter="showData('life', 'right')" onmouseleave="hideData()">Life Circumstances</div>
+        <div class="static-label top-[82%] left-[8%] interactive-label animate-fly-in" style="animation-delay: 13.9s;" onmouseenter="showData('shame', 'right')" onmouseleave="hideData()">Shame & Embarrassment</div>
         
         <!-- Reordered Right Side & Replaced 'and' with '&' -->
-        <div class="static-label top-[48%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.2s;" onmouseenter="showData('feelingUnheard')" onmouseleave="hideData()">Feeling Unheard</div>
-        <div class="static-label top-[58%] right-[4%] interactive-label animate-fly-in" style="animation-delay: 14.5s;" onmouseenter="showData('powerless')" onmouseleave="hideData()">Feeling Powerless</div>
-        <div class="static-label top-[70%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 14.8s;" onmouseenter="showData('distress')" onmouseleave="hideData()">Genuine Pain & Distress</div>
-        <div class="static-label top-[82%] right-[8%] interactive-label animate-fly-in" style="animation-delay: 15.1s;" onmouseenter="showData('trauma')" onmouseleave="hideData()">Past Traumatic Experiences</div>
+        <div class="static-label top-[48%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.2s;" onmouseenter="showData('feelingUnheard', 'left')" onmouseleave="hideData()">Feeling Unheard</div>
+        <div class="static-label top-[58%] right-[4%] interactive-label animate-fly-in" style="animation-delay: 14.5s;" onmouseenter="showData('powerless', 'left')" onmouseleave="hideData()">Feeling Powerless</div>
+        <div class="static-label top-[70%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 14.8s;" onmouseenter="showData('distress', 'left')" onmouseleave="hideData()">Genuine Pain & Distress</div>
+        <div class="static-label top-[82%] right-[8%] interactive-label animate-fly-in" style="animation-delay: 15.1s;" onmouseenter="showData('trauma', 'left')" onmouseleave="hideData()">Past Traumatic Experiences</div>
     </div>
 
     <div id="bottomControls">
@@ -248,7 +262,7 @@
         <button class="control-link" onclick="skipAudio()">Skip Narration</button>
     </div>
 
-    <div id="detailPanel" class="detail-panel"><h2 id="panelHeading">Heading</h2><ul id="panelList"></ul></div>
+    <div id="detailPanel" class="detail-panel on-right"><h2 id="panelHeading">Heading</h2><ul id="panelList"></ul></div>
 
     <script>
         // Updated titles with "&" and proper capitalization
@@ -268,9 +282,14 @@
         const list = document.getElementById('panelList');
         const audio = document.getElementById('narrationAudio');
 
-        function showData(key) {
+        function showData(key, side = 'right') {
             const data = details[key];
             if (!data) return;
+
+            // Set panel position based on trigger side
+            panel.classList.remove('on-left', 'on-right');
+            panel.classList.add(side === 'left' ? 'on-left' : 'on-right');
+
             heading.innerText = data.title;
             list.innerHTML = data.items.map(item => `<li>${item}</li>`).join('');
             panel.classList.add('active');
