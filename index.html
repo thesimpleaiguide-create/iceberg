@@ -298,14 +298,25 @@
                     <span>Narration Source:</span>
                     <span id="speechSynthesisBadge" class="text-[10px] text-emerald-400 font-mono">Ready</span>
                 </div>
-                <label class="flex items-center gap-2 text-slate-200 mb-1 cursor-pointer">
-                    <input type="radio" name="audioMode" value="synth" checked onchange="setAudioMode('synth')">
-                    <span><strong>Clear Browser Voice (Recommended)</strong> — crisp, artifact-free speech</span>
-                </label>
-                <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-                    <input type="radio" name="audioMode" value="file" onchange="setAudioMode('file')">
-                    <span><strong>Original Audio File (.wav)</strong> — with vocal clarity filter</span>
-                </label>
+                
+                <div class="space-y-2">
+                    <label class="flex items-start gap-2 text-slate-200 cursor-pointer">
+                        <input type="radio" name="audioMode" value="synth" checked onchange="setAudioMode('synth')" class="mt-0.5">
+                        <span><strong>Clean Browser Voice (AI)</strong><br><span class="text-slate-400 text-[11px]">Crisp, no microphone noise, instant playback</span></span>
+                    </label>
+
+                    <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
+                        <input type="radio" name="audioMode" value="file" onchange="setAudioMode('file')" class="mt-0.5">
+                        <span class="w-full">
+                            <strong>Repository Audio Track (.wav)</strong>
+                            <select id="repoAudioSelect" onchange="switchRepoTrack(this.value)" class="mt-1 w-full bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-[11px] text-sky-200 focus:outline-none focus:border-sky-300">
+                                <option value="updated_narrative.wav">updated_narrative.wav</option>
+                                <option value="Updated%20Narrative%20for%20the%20Iceberg%20metaphor.wav">Updated Narrative for the Iceberg metaphor.wav</option>
+                                <option value="iceberg_narration.wav">iceberg_narration.wav (Original)</option>
+                            </select>
+                        </span>
+                    </label>
+                </div>
             </div>
 
             <button onclick="startExperience()" class="px-8 py-4 bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 text-[#002040] font-bold text-lg rounded-full shadow-lg hover:shadow-sky-400/20 transform hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer">
@@ -438,7 +449,7 @@
 
         <!-- Voice Switcher -->
         <button id="voiceSwitchBtn" onclick="cycleAudioSource()" class="text-sky-200 hover:text-white flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors" title="Toggle audio source">
-            <span class="text-[10px] bg-sky-800/80 px-1.5 py-0.5 rounded border border-sky-400/40 text-sky-200 font-mono" id="voiceTypeBadge">Voice: Browser</span>
+            <span class="text-[10px] bg-sky-800/80 px-1.5 py-0.5 rounded border border-sky-400/40 text-sky-200 font-mono" id="voiceTypeBadge">Source: Browser Voice</span>
         </button>
 
         <span class="w-px h-3 bg-white/20"></span>
@@ -473,6 +484,15 @@
             { start: 14.5, end: 21.0, text: "Beneath the waterline lie the deep, hidden drivers: unmet needs, acute fear, life stress, and past trauma." },
             { start: 21.0, end: 26.0, text: "Understanding these subterranean causes allows us to respond with empathy rather than defensiveness." }
         ];
+
+        // Available repository audio tracks
+        const repoBaseUrl = "https://thesimpleaiguide-create.github.io/iceberg/";
+        const availableAudioTracks = [
+            { label: "updated_narrative.wav", file: "updated_narrative.wav" },
+            { label: "Updated Narrative for the Iceberg metaphor.wav", file: "Updated%20Narrative%20for%20the%20Iceberg%20metaphor.wav" },
+            { label: "iceberg_narration.wav", file: "iceberg_narration.wav" }
+        ];
+        let currentTrackIndex = 0;
 
         // Data taxonomy covering hidden drivers and healthcare insights
         const details = {
@@ -574,6 +594,28 @@
         let audioContext = null;
         let isAudioFilterApplied = false;
 
+        function switchRepoTrack(filename) {
+            const index = availableAudioTracks.findIndex(t => t.file === filename);
+            if (index !== -1) currentTrackIndex = index;
+            audio.src = repoBaseUrl + filename;
+            audio.load();
+            if (audioMode === 'file') {
+                updateVoiceBadge();
+                if (document.body.classList.contains('is-playing')) {
+                    playFileAudio();
+                }
+            }
+        }
+
+        function updateVoiceBadge() {
+            if (audioMode === 'synth') {
+                voiceBadge.innerText = 'Source: Browser Voice';
+            } else {
+                const trackName = availableAudioTracks[currentTrackIndex].label.split('.')[0].substring(0, 14);
+                voiceBadge.innerText = `Track: ${trackName}…`;
+            }
+        }
+
         // Apply Web Audio API Vocal Clarity EQ to remove mud and hiss from file
         function initAudioProcessing() {
             if (audioContext || !audio) return;
@@ -615,19 +657,29 @@
         // Mode Switcher: Synth vs File
         function setAudioMode(mode) {
             audioMode = mode;
-            voiceBadge.innerText = mode === 'synth' ? 'Voice: Browser' : 'Voice: Audio File';
+            updateVoiceBadge();
         }
 
         function cycleAudioSource() {
+            stopAllAudio();
             if (audioMode === 'synth') {
-                stopAllAudio();
                 setAudioMode('file');
                 playFileAudio();
             } else {
-                stopAllAudio();
-                setAudioMode('synth');
-                playSynthNarration();
+                // Cycle between repo audio files or back to synth
+                currentTrackIndex++;
+                if (currentTrackIndex >= availableAudioTracks.length) {
+                    currentTrackIndex = 0;
+                    setAudioMode('synth');
+                    playSynthNarration();
+                } else {
+                    const nextFile = availableAudioTracks[currentTrackIndex].file;
+                    document.getElementById('repoAudioSelect').value = nextFile;
+                    switchRepoTrack(nextFile);
+                    playFileAudio();
+                }
             }
+            updateVoiceBadge();
         }
 
         function stopAllAudio() {
