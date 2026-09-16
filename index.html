@@ -42,186 +42,89 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #002040;
-            overflow-x: hidden;
-            user-select: none;
-        }
-
-        /* Container background with resilient fallback */
-        .iceberg-stage {
-            position: relative;
-            width: 100vw;
-            min-height: 100vh;
-            height: 100vh;
+            background-color: #002a54;
             overflow: hidden;
-            background: linear-gradient(180deg, #dbeafe 0%, #93c5fd 32%, #0284c7 44%, #0369a1 46%, #075985 52%, #002a54 75%, #001529 100%);
         }
 
-        .iceberg-photo-bg {
-            position: absolute;
-            inset: 0;
+        .iceberg-container {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            background-color: #a5d8ff;
             background-image: url('https://thesimpleaiguide-create.github.io/iceberg/iceberg.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.88;
-            pointer-events: none;
-            mix-blend-mode: multiply;
         }
 
-        /* Stylized waterline accent */
-        .waterline-divider {
+        /* Visible Behaviours Labels */
+        .label-text {
+            color: #1a1a1a; 
+            font-size: 1.6rem;
+            font-weight: 400;
             position: absolute;
-            top: 42%;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 20%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.6) 80%, rgba(255,255,255,0) 100%);
-            box-shadow: 0 0 16px rgba(255, 255, 255, 0.8);
-            z-index: 15;
             pointer-events: none;
-        }
-
-        .waterline-badge {
-            position: absolute;
-            top: 42%;
-            transform: translateY(-50%);
-            z-index: 18;
-            padding: 3px 12px;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            font-weight: 700;
-            border-radius: 9999px;
-            pointer-events: none;
-        }
-
-        /* Visible Behaviours Labels (Above Surface) */
-        .label-above {
-            color: #0f172a;
-            font-weight: 600;
-            position: absolute;
-            z-index: 25;
             white-space: nowrap;
             letter-spacing: -0.01em;
-            text-shadow: 0 0 14px rgba(255, 255, 255, 0.95), 0 0 5px rgba(255, 255, 255, 0.85);
-            transition: transform 0.2s ease;
-            pointer-events: default;
+            z-index: 20;
+            text-shadow: 0 0 12px rgba(255,255,255,1), 0 0 6px rgba(255,255,255,0.8);
         }
 
-        /* Hidden Drivers Labels (Subsurface Interactive) */
-        .label-driver {
+        /* Hidden Drivers Labels */
+        .static-label {
             color: #ffffff;
-            font-weight: 600;
+            font-size: 1.8rem;
+            font-weight: 400;
             position: absolute;
-            z-index: 30;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 42, 84, 0.8);
+            max-width: 450px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
             letter-spacing: 0.01em;
+            line-height: 1.2;
+            z-index: 30;
+        }
+
+        .interactive-label {
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border-radius: 8px;
-            padding: 4px 10px;
-            background: rgba(0, 20, 45, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(4px);
+            pointer-events: auto;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .interactive-label:hover, .interactive-label.active-label {
+            color: #a5d8ff;
+            transform: scale(1.05);
         }
 
-        .label-driver:hover, .label-driver:focus-visible, .label-driver.active-driver {
-            color: #bae6fd;
-            background: rgba(0, 50, 110, 0.6);
-            border-color: rgba(186, 230, 253, 0.7);
-            transform: scale(1.04);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-        }
-
-        .driver-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #38bdf8;
-            box-shadow: 0 0 8px #38bdf8;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        .label-driver:hover .driver-indicator,
-        .label-driver.active-driver .driver-indicator {
-            background-color: #ffffff;
-            transform: scale(1.4);
-            box-shadow: 0 0 12px #ffffff;
-        }
-
-        /* Fly-in Entrance Animations */
-        @keyframes flyInLeft {
-            0% { opacity: 0; transform: translateX(-40px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes flyInRight {
-            0% { opacity: 0; transform: translateX(40px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        .animate-fly-left {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .animate-fly-right {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        body.is-playing .animate-fly-left {
-            visibility: visible;
-            animation: flyInLeft 1.2s cubic-bezier(0.2, 0.9, 0.3, 1) both;
-        }
-
-        body.is-playing .animate-fly-right {
-            visibility: visible;
-            animation: flyInRight 1.2s cubic-bezier(0.2, 0.9, 0.3, 1) both;
-        }
-
-        body.skip-delay .animate-fly-left,
-        body.skip-delay .animate-fly-right {
-            animation: none !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateX(0) !important;
-        }
-
-        /* Detail Modal / Flyout Panel */
+        /* Detail Panel */
         .detail-panel {
             position: fixed;
             top: 50%;
-            width: 440px;
-            max-width: calc(100vw - 32px);
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(16px);
-            border-radius: 18px;
-            padding: 28px 30px;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.4);
+            width: 420px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             opacity: 0;
             visibility: hidden;
-            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease, visibility 0.28s ease;
-            z-index: 90;
-            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+            pointer-events: none; 
         }
 
         .detail-panel.on-right {
-            right: 32px;
+            right: 40px;
             left: auto;
-            transform: translateY(-50%) translateX(24px);
-            border-left: 6px solid #004b8d;
+            transform: translateY(-50%) translateX(20px);
+            border-left: 8px solid #004b8d;
+            border-right: none;
         }
 
         .detail-panel.on-left {
-            left: 32px;
+            left: 40px;
             right: auto;
-            transform: translateY(-50%) translateX(-24px);
-            border-right: 6px solid #004b8d;
+            transform: translateY(-50%) translateX(-20px);
+            border-right: 8px solid #004b8d;
+            border-left: none;
         }
 
         .detail-panel.active {
@@ -231,660 +134,245 @@
             transform: translateY(-50%) translateX(0);
         }
 
-        /* Audio Controls Bar */
-        .glass-bar {
-            background: rgba(0, 20, 45, 0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        .detail-panel h2 {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #004b8d;
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
-        /* Captions Bar */
-        .caption-box {
-            background: rgba(0, 15, 35, 0.75);
+        .detail-panel li {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .detail-panel li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #004b8d;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        /* Fly-in Animation with 10s wait */
+        @keyframes flyInHorizontal {
+            0% { opacity: 0; transform: translateX(-100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-fly-in {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        body.is-playing .animate-fly-in {
+            visibility: visible;
+            animation: flyInHorizontal 2.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+        }
+
+        body.skip-delay .animate-fly-in {
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateX(0) !important;
+        }
+
+        /* Start Button Overlay */
+        #startOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 42, 84, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
         }
 
-        /* Responsive Breakpoints & Mobile Fallbacks */
-        @media (max-width: 900px) {
-            .detail-panel {
-                top: auto;
-                bottom: 84px;
-                left: 16px !important;
-                right: 16px !important;
-                width: auto;
-                transform: translateY(20px);
-                border-left: none !important;
-                border-right: none !important;
-                border-top: 5px solid #004b8d;
-                max-height: 55vh;
-                overflow-y: auto;
-            }
-            .detail-panel.active {
-                transform: translateY(0);
-            }
-            .label-driver {
-                font-size: 0.95rem !important;
-                padding: 3px 8px;
-            }
-            .label-above {
-                font-size: 0.9rem !important;
-            }
+        .start-btn {
+            background-color: #a5d8ff;
+            color: #002a54;
+            padding: 18px 50px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            background-color: #bee3f8;
+        }
+
+        /* Bottom Controls Bar */
+        #bottomControls {
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        body.is-playing #bottomControls {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .control-link {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            background: none;
+            border: none;
+            border-bottom: 1px solid transparent;
+            padding: 5px;
+            font-weight: 600;
+        }
+
+        .control-link:hover {
+            color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .label-text { font-size: 1rem; }
+            .static-label { font-size: 1.1rem; }
+            .detail-panel { width: 90%; left: 5% !important; right: auto !important; padding: 20px; }
         }
     </style>
 </head>
-<body class="bg-iceberg-deep text-slate-100 min-h-screen">
+<body class="p-0 m-0">
 
     <audio id="narrationAudio" src="https://thesimpleaiguide-create.github.io/iceberg/updated_narrative.wav" preload="auto"></audio>
 
-    <!-- START OVERLAY SCREEN -->
-    <div id="startOverlay" class="fixed inset-0 bg-[#001c38]/95 backdrop-blur-md flex flex-col justify-center items-center z-50 p-6 text-center transition-all duration-500">
-        <div class="max-w-xl mx-auto flex flex-col items-center">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950/80 border border-sky-400/30 text-sky-300 text-xs tracking-wider uppercase font-semibold mb-4">
-                Healthcare Communication Framework
-            </span>
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-                The Iceberg Model
-            </h1>
-            <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-lg">
-                Behind challenging patient interactions lie profound, often unseen drivers. Explore what happens beneath the surface in healthcare environments.
-            </p>
-
-            <!-- Audio Voice Mode Preference Selector -->
-            <div class="mb-6 p-3 bg-sky-950/60 border border-sky-400/30 rounded-xl text-left max-w-sm w-full text-xs">
-                <div class="font-semibold text-sky-200 mb-2 flex items-center justify-between">
-                    <span>Narration Source:</span>
-                    <span id="speechSynthesisBadge" class="text-[10px] text-emerald-400 font-mono">Ready</span>
-                </div>
-                
-                <div class="space-y-2">
-                    <label class="flex items-start gap-2 text-slate-200 cursor-pointer">
-                        <input type="radio" name="audioMode" value="synth" checked onchange="setAudioMode('synth')" class="mt-0.5">
-                        <span><strong>Clean Browser Voice (AI)</strong><br><span class="text-slate-400 text-[11px]">Crisp, no microphone noise, instant playback</span></span>
-                    </label>
-
-                    <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
-                        <input type="radio" name="audioMode" value="file" onchange="setAudioMode('file')" class="mt-0.5">
-                        <span class="w-full">
-                            <strong>Repository Audio Track (.wav)</strong>
-                            <select id="repoAudioSelect" onchange="switchRepoTrack(this.value)" class="mt-1 w-full bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-[11px] text-sky-200 focus:outline-none focus:border-sky-300">
-                                <option value="updated_narrative.wav">updated_narrative.wav</option>
-                                <option value="Updated%20Narrative%20for%20the%20Iceberg%20metaphor.wav">Updated Narrative for the Iceberg metaphor.wav</option>
-                                <option value="iceberg_narration.wav">iceberg_narration.wav (Original)</option>
-                            </select>
-                        </span>
-                    </label>
-                </div>
-            </div>
-
-            <button onclick="startExperience()" class="px-8 py-4 bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 text-[#002040] font-bold text-lg rounded-full shadow-lg hover:shadow-sky-400/20 transform hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer">
-                Begin Module
-            </button>
-            <span class="mt-4 text-xs text-slate-400">Audio narration &amp; live subtitles enabled. Click any driver to inspect deeper causes.</span>
-        </div>
+    <!-- Clean Start Overlay -->
+    <div id="startOverlay">
+        <button class="start-btn" onclick="startExperience()">Begin Module</button>
     </div>
 
-    <!-- MAIN ICEBERG STAGE -->
-    <div class="iceberg-stage" id="stage">
-        <!-- Photo layer -->
-        <div class="iceberg-photo-bg" id="photoBg"></div>
+    <!-- Main Visual Iceberg -->
+    <div class="iceberg-container">
+        <!-- Visible Behaviours (Above Water) -->
+        <div class="absolute top-[5%] left-[34%] label-text animate-fly-in" style="animation-delay: 10.0s;">Frustration</div> 
+        <div class="absolute top-[5%] right-[34%] label-text animate-fly-in" style="animation-delay: 10.4s;">Manipulative</div> 
+        
+        <div class="absolute top-[14%] left-[26%] label-text animate-fly-in" style="animation-delay: 10.8s;">Raised Voice</div>
+        <div class="absolute top-[14%] right-[26%] label-text animate-fly-in" style="animation-delay: 11.2s;">Demanding</div> 
+        
+        <div class="absolute top-[23%] left-[18%] label-text animate-fly-in" style="animation-delay: 11.6s;">Anger</div>
+        <div class="absolute top-[23%] right-[18%] label-text animate-fly-in" style="animation-delay: 12.0s;">Invading</div>
+        
+        <div class="absolute top-[32%] left-[10%] label-text animate-fly-in" style="animation-delay: 12.4s;">Interrupting</div>
+        <div class="absolute top-[32%] right-[10%] label-text animate-fly-in" style="animation-delay: 12.8s;">Eye rolling</div> 
 
-        <!-- Ambient Waterline -->
-        <div class="waterline-divider"></div>
-        <div class="waterline-badge left-4 bg-white/20 text-slate-900 border border-white/40 shadow-sm backdrop-blur">
-            ▲ Observable Behaviours (10%)
-        </div>
-        <div class="waterline-badge right-4 bg-sky-950/60 text-sky-200 border border-sky-400/30 shadow-sm backdrop-blur">
-            ▼ Subsurface Causes (90%)
-        </div>
-
-        <!-- Row 1 -->
-        <div class="absolute top-[5%] left-[28%] md:left-[34%] text-base sm:text-xl md:text-2xl label-above animate-fly-left" style="animation-delay: 10.0s;">
-            Frustration
-        </div>
-        <div class="absolute top-[5%] right-[28%] md:right-[34%] text-base sm:text-xl md:text-2xl label-above animate-fly-right" style="animation-delay: 10.4s;">
-            Manipulative
-        </div>
-
-        <!-- Row 2 -->
-        <div class="absolute top-[14%] left-[20%] md:left-[26%] text-base sm:text-xl md:text-2xl label-above animate-fly-left" style="animation-delay: 10.8s;">
-            Raised Voice
-        </div>
-        <div class="absolute top-[14%] right-[20%] md:right-[26%] text-base sm:text-xl md:text-2xl label-above animate-fly-right" style="animation-delay: 11.2s;">
-            Demanding
-        </div>
-
-        <!-- Row 3 -->
-        <div class="absolute top-[23%] left-[12%] md:left-[18%] text-base sm:text-xl md:text-2xl label-above animate-fly-left" style="animation-delay: 11.6s;">
-            Anger
-        </div>
-        <div class="absolute top-[23%] right-[12%] md:right-[18%] text-base sm:text-xl md:text-2xl label-above animate-fly-right" style="animation-delay: 12.0s;">
-            Invading Space
-        </div>
-
-        <!-- Row 4 -->
-        <div class="absolute top-[32%] left-[4%] md:left-[10%] text-base sm:text-xl md:text-2xl label-above animate-fly-left" style="animation-delay: 12.4s;">
-            Interrupting
-        </div>
-        <div class="absolute top-[32%] right-[4%] md:right-[10%] text-base sm:text-xl md:text-2xl label-above animate-fly-right" style="animation-delay: 12.8s;">
-            Eye Rolling
-        </div>
-
-        <!-- Left Subsurface Column -->
-        <button type="button" class="label-driver top-[48%] left-[3%] text-base sm:text-xl md:text-2xl animate-fly-left" style="animation-delay: 13.0s;" onclick="toggleData('unmet', 'right', this)" onmouseenter="handleHover('unmet', 'right', this)">
-            <span class="driver-indicator"></span>
-            <span>Unmet Needs</span>
-        </button>
-
-        <button type="button" class="label-driver top-[60%] left-[5%] text-base sm:text-xl md:text-2xl animate-fly-left" style="animation-delay: 13.3s;" onclick="toggleData('fear', 'right', this)" onmouseenter="handleHover('fear', 'right', this)">
-            <span class="driver-indicator"></span>
-            <span>Fear &amp; Anxiety</span>
-        </button>
-
-        <button type="button" class="label-driver top-[72%] left-[7%] text-base sm:text-xl md:text-2xl animate-fly-left" style="animation-delay: 13.6s;" onclick="toggleData('life', 'right', this)" onmouseenter="handleHover('life', 'right', this)">
-            <span class="driver-indicator"></span>
-            <span>Life Circumstances</span>
-        </button>
-
-        <button type="button" class="label-driver top-[84%] left-[9%] text-base sm:text-xl md:text-2xl animate-fly-left" style="animation-delay: 13.9s;" onclick="toggleData('shame', 'right', this)" onmouseenter="handleHover('shame', 'right', this)">
-            <span class="driver-indicator"></span>
-            <span>Shame &amp; Embarrassment</span>
-        </button>
-
-        <!-- Right Subsurface Column -->
-        <button type="button" class="label-driver top-[48%] right-[3%] text-base sm:text-xl md:text-2xl animate-fly-right" style="animation-delay: 14.2s;" onclick="toggleData('feelingUnheard', 'left', this)" onmouseenter="handleHover('feelingUnheard', 'left', this)">
-            <span>Feeling Unheard</span>
-            <span class="driver-indicator"></span>
-        </button>
-
-        <button type="button" class="label-driver top-[60%] right-[5%] text-base sm:text-xl md:text-2xl animate-fly-right" style="animation-delay: 14.5s;" onclick="toggleData('powerless', 'left', this)" onmouseenter="handleHover('powerless', 'left', this)">
-            <span>Feeling Powerless</span>
-            <span class="driver-indicator"></span>
-        </button>
-
-        <button type="button" class="label-driver top-[72%] right-[7%] text-base sm:text-xl md:text-2xl animate-fly-right" style="animation-delay: 14.8s;" onclick="toggleData('distress', 'left', this)" onmouseenter="handleHover('distress', 'left', this)">
-            <span>Genuine Pain &amp; Distress</span>
-            <span class="driver-indicator"></span>
-        </button>
-
-        <button type="button" class="label-driver top-[84%] right-[9%] text-base sm:text-xl md:text-2xl animate-fly-right" style="animation-delay: 15.1s;" onclick="toggleData('trauma', 'left', this)" onmouseenter="handleHover('trauma', 'left', this)">
-            <span>Past Traumatic Experiences</span>
-            <span class="driver-indicator"></span>
-        </button>
+        <!-- Hidden Drivers (Below Water) -->
+        <div class="static-label top-[48%] left-[2%] interactive-label animate-fly-in" style="animation-delay: 13.0s;" onclick="toggleData('unmet', 'right', this)" onmouseenter="showData('unmet', 'right')" onmouseleave="hideData()">Unmet Needs</div>
+        <div class="static-label top-[58%] left-[4%] interactive-label animate-fly-in" style="animation-delay: 13.3s;" onclick="toggleData('fear', 'right', this)" onmouseenter="showData('fear', 'right')" onmouseleave="hideData()">Fear & Anxiety</div>
+        <div class="static-label top-[70%] left-[6%] interactive-label animate-fly-in" style="animation-delay: 13.6s;" onclick="toggleData('life', 'right', this)" onmouseenter="showData('life', 'right')" onmouseleave="hideData()">Life Circumstances</div>
+        <div class="static-label top-[82%] left-[8%] interactive-label animate-fly-in" style="animation-delay: 13.9s;" onclick="toggleData('shame', 'right', this)" onmouseenter="showData('shame', 'right')" onmouseleave="hideData()">Shame & Embarrassment</div>
+        
+        <div class="static-label top-[48%] right-[2%] interactive-label animate-fly-in" style="animation-delay: 14.2s;" onclick="toggleData('feelingUnheard', 'left', this)" onmouseenter="showData('feelingUnheard', 'left')" onmouseleave="hideData()">Feeling Unheard</div>
+        <div class="static-label top-[58%] right-[4%] interactive-label animate-fly-in" style="animation-delay: 14.5s;" onclick="toggleData('powerless', 'left', this)" onmouseenter="showData('powerless', 'left')" onmouseleave="hideData()">Feeling Powerless</div>
+        <div class="static-label top-[70%] right-[6%] interactive-label animate-fly-in" style="animation-delay: 14.8s;" onclick="toggleData('distress', 'left', this)" onmouseenter="showData('distress', 'left')" onmouseleave="hideData()">Genuine Pain & Distress</div>
+        <div class="static-label top-[82%] right-[8%] interactive-label animate-fly-in" style="animation-delay: 15.1s;" onclick="toggleData('trauma', 'left', this)" onmouseenter="showData('trauma', 'left')" onmouseleave="hideData()">Past Traumatic Experiences</div>
     </div>
 
-    <!-- Live Subtitle / Caption Banner -->
-    <div id="captionContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-40 max-w-2xl w-[90%] px-5 py-2.5 rounded-full caption-box text-center transition-all duration-300 opacity-0 pointer-events-none">
-        <p id="captionText" class="text-xs sm:text-sm font-medium text-sky-100 tracking-wide">
-            Preparing narration...
-        </p>
+    <!-- Minimal Controls -->
+    <div id="bottomControls">
+        <button class="control-link" onclick="toggleMute()" id="muteToggle">Mute Audio</button>
+        <button class="control-link" onclick="skipAudio()">Skip Narration</button>
     </div>
 
-    <div id="detailPanel" class="detail-panel on-right" role="region" aria-live="polite">
-        <div class="flex items-start justify-between gap-3 mb-4">
-            <h2 id="panelHeading" class="text-xl sm:text-2xl font-bold text-[#004b8d] tracking-tight uppercase">
-                Driver Insights
-            </h2>
-            <button onclick="hideData(true)" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 transition-colors" aria-label="Close panel">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-        <p class="text-xs text-slate-500 font-medium mb-3 uppercase tracking-wider">Underlying Clinical &amp; Human Factors</p>
-        <ul id="panelList" class="space-y-3 text-slate-800 text-sm sm:text-base leading-relaxed"></ul>
+    <!-- Detail Flyout Panel -->
+    <div id="detailPanel" class="detail-panel on-right">
+        <h2 id="panelHeading">Heading</h2>
+        <ul id="panelList"></ul>
     </div>
-
-    <footer id="bottomControls" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full glass-bar flex items-center gap-3 sm:gap-6 opacity-0 transition-opacity duration-500">
-        <!-- Play / Pause -->
-        <button id="playPauseBtn" onclick="togglePlayPause()" class="text-sky-200 hover:text-white flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors">
-            <svg id="playIcon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-            <svg id="pauseIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-            <span id="playPauseLabel">Pause</span>
-        </button>
-
-        <span class="w-px h-3 bg-white/20"></span>
-
-        <!-- Voice Switcher -->
-        <button id="voiceSwitchBtn" onclick="cycleAudioSource()" class="text-sky-200 hover:text-white flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors" title="Toggle audio source">
-            <span class="text-[10px] bg-sky-800/80 px-1.5 py-0.5 rounded border border-sky-400/40 text-sky-200 font-mono" id="voiceTypeBadge">Source: Browser Voice</span>
-        </button>
-
-        <span class="w-px h-3 bg-white/20"></span>
-
-        <!-- Audio Mute -->
-        <button id="muteToggle" onclick="toggleMute()" class="text-sky-200 hover:text-white flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors">
-            <svg id="volIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.777L4.707 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.707l3.676-3.777a1 1 0 011-.147zm4.324 2.217a1 1 0 011.414 0A9.972 9.972 0 0117 10c0 2.05-.62 3.955-1.685 5.534a1 1 0 11-1.63-1.154A7.971 7.971 0 0015 10c0-1.618-.48-3.125-1.293-4.383a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            <span id="muteLabel">Mute</span>
-        </button>
-
-        <span class="w-px h-3 bg-white/20"></span>
-
-        <!-- Skip Narration (instant show all) -->
-        <button onclick="skipAudio()" class="text-sky-200 hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors">
-            Show All
-        </button>
-
-        <span class="w-px h-3 bg-white/20"></span>
-
-        <!-- Replay -->
-        <button onclick="replayExperience()" class="text-sky-200 hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors">
-            Replay
-        </button>
-    </footer>
 
     <script>
-        // Synchronized Narrative Script & Timings for Subtitles and Web Speech
-        const narrativeSegments = [
-            { start: 0.0, end: 5.0, text: "In healthcare, we frequently witness reactive behaviours from patients and relatives." },
-            { start: 5.0, end: 9.8, text: "Frustration, raised voices, anger, or demanding communication are just the tip of the iceberg." },
-            { start: 9.8, end: 14.5, text: "These observable behaviours represent only ten percent of what is truly occurring." },
-            { start: 14.5, end: 21.0, text: "Beneath the waterline lie the deep, hidden drivers: unmet needs, acute fear, life stress, and past trauma." },
-            { start: 21.0, end: 26.0, text: "Understanding these subterranean causes allows us to respond with empathy rather than defensiveness." }
-        ];
-
-        // Available repository audio tracks
-        const repoBaseUrl = "https://thesimpleaiguide-create.github.io/iceberg/";
-        const availableAudioTracks = [
-            { label: "updated_narrative.wav", file: "updated_narrative.wav" },
-            { label: "Updated Narrative for the Iceberg metaphor.wav", file: "Updated%20Narrative%20for%20the%20Iceberg%20metaphor.wav" },
-            { label: "iceberg_narration.wav", file: "iceberg_narration.wav" }
-        ];
-        let currentTrackIndex = 0;
-
-        // Data taxonomy covering hidden drivers and healthcare insights
         const details = {
-            unmet: {
-                title: "Unmet Needs",
-                items: [
-                    "In genuine physical or emotional pain that is not being acknowledged.",
-                    "Exhausted from poor sleep, chronic symptoms, or medication side effects.",
-                    "Hungry, cold, overwhelmed, or in an uncomfortable, crowded waiting environment.",
-                    "Feeling invisible, socially isolated, or lacking caregiver support.",
-                    "Desperate for human validation and empathetic connection as much as medical help."
-                ]
-            },
-            fear: {
-                title: "Fear & Anxiety",
-                items: [
-                    "Underlying fear of a serious, life-altering diagnosis they are terrified to hear.",
-                    "Anticipatory dread regarding invasive procedures, injections, or treatments.",
-                    "Fear of being judged, dismissed, or labeled as difficult by the medical team.",
-                    "Severe anxiety focused on a loved one or dependent rather than themselves.",
-                    "Persistent health anxiety built over weeks or months of unaddressed doubt.",
-                    "Panic over losing autonomy and decision-making control over their care."
-                ]
-            },
-            life: {
-                title: "Life Circumstances",
-                items: [
-                    "Carrying 24/7 caregiving duties for a relative while sacrificing personal health.",
-                    "Severe financial or housing stress making every appointment fee or transport high stakes.",
-                    "Intense work obligations meaning taking time off has threatened their livelihood.",
-                    "Bereavement, divorce, or breakdown in primary support networks.",
-                    "Undisclosed psychiatric conditions or acute personal crises."
-                ]
-            },
-            shame: {
-                title: "Shame & Embarrassment",
-                items: [
-                    "Embarrassment regarding intimate symptoms, hygiene, or chronic lifestyle habits.",
-                    "Self-blame and remorse for postponing medical care until acute deterioration.",
-                    "Anticipating moral judgment regarding weight, alcohol, addiction, or mental health.",
-                    "Deep-seated pride making it agonizing to ask for assistance.",
-                    "Lingering dread of being perceived by healthcare workers as a 'time waster'."
-                ]
-            },
-            trauma: {
-                title: "Past Traumatic Experiences",
-                items: [
-                    "Prior encounters with clinical dismissals, medical malpractice, or late diagnosis.",
-                    "Visceral triggers associated with hospital scents, monitors, or confined clinics.",
-                    "Intergenerational or cultural mistrust of public health institutions.",
-                    "Grief for a family member or peer who was let down by the healthcare system."
-                ]
-            },
-            feelingUnheard: {
-                title: "Feeling Unheard",
-                items: [
-                    "Has called repeatedly, only to experience clipped answers and automated triage queues.",
-                    "Has adopted defensive aggression because quiet politeness previously yielded zero help.",
-                    "Disjointed department hand-offs have eroded faith that any individual provider will care.",
-                    "The current outburst is rarely about today—it is the cumulative weight of being dismissed before."
-                ]
-            },
-            distress: {
-                title: "Genuine Pain & Distress",
-                items: [
-                    "Severe neurological or visceral pain depletes cognitive reserves and conversational patience.",
-                    "What looks like hostility is often an involuntary mask for sheer physical exhaustion.",
-                    "The individual is expending every scrap of mental stamina just remaining seated and coherent.",
-                    "Persistent pain reduces adaptability, turning minor bureaucratic obstacles into crises."
-                ]
-            },
-            powerless: {
-                title: "Feeling Powerless",
-                items: [
-                    "The modern clinical infrastructure feels vast, procedural, and indifferent to their life.",
-                    "Aggression becomes the last resort to reclaim agency when all protocol fails them.",
-                    "They may have followed every instruction accurately yet still landed in diagnostic limbo.",
-                    "The consultation or reception desk often represents the solitary place where they can demand to be seen."
-                ]
-            }
+            unmet: { title: "Unmet Needs:", items: ["In genuine pain that is not being acknowledged", "Exhausted from poor sleep or chronic illness", "Hungry, cold or in an uncomfortable environment", "Feeling invisible or socially isolated", "Desperate for human connection as much as medical help"] },
+            fear: { title: "Fear & Anxiety:", items: ["Fear of a serious diagnosis they are not ready to hear", "Anxiety about a procedure or treatment", "Fear of being dismissed or not taken seriously", "Worry about a loved one rather than themselves", "Health anxiety that has been building for weeks or months", "Fear of losing control over their own health decisions"] },
+            life: { title: "Life Circumstances:", items: ["Caring for a sick relative while managing their own health", "Financial stress making every appointment feel high stakes", "Work pressure meaning this appointment has already cost them something", "Relationship breakdown or bereavement affecting their emotional resilience", "Mental health difficulties they have not disclosed"] },
+            shame: { title: "Shame & Embarrassment:", items: ["Embarrassment about their symptoms or lifestyle", "Shame about leaving it too long before coming", "Feeling judged about weight, drinking or mental health", "Pride making it hard to ask for help", "Fear of being seen as a time waster"] },
+            trauma: { title: "Past Traumatic Experiences:", items: ["Previous negative experience with the NHS or this practice", "History of being ignored or misdiagnosed", "Trauma associated with hospitals or medical settings", "Cultural or historical mistrust of authority or healthcare systems", "A loved one who was let down by the system"] },
+            feelingUnheard: { title: "Feeling Unheard:", items: ["They have called multiple times and felt rushed or dismissed every time", "They have learned that raising their voice is the only way to be taken seriously", "Being passed between departments has destroyed any trust that someone will listen", "This frustration is rarely just about today. It is about every time before it"] },
+            distress: { title: "Genuine Pain & Distress:", items: ["Pain changes people. It affects patience and the ability to communicate calmly", "What sounds like aggression is often exhaustion", "They are already using every resource they have just to be present in this conversation", "Chronic pain makes even small obstacles feel insurmountable"] },
+            powerless: { title: "Feeling Powerless:", items: ["The healthcare system can feel vast and completely indifferent to the individual inside it", "Anger is often a response to powerlessness. It is the one thing they feel they can do", "They may have followed every process correctly and still ended up no further forward", "The reception desk can feel like the only place in the system where they have a voice"] }
         };
 
         const panel = document.getElementById('detailPanel');
         const heading = document.getElementById('panelHeading');
         const list = document.getElementById('panelList');
         const audio = document.getElementById('narrationAudio');
-        const captionContainer = document.getElementById('captionContainer');
-        const captionText = document.getElementById('captionText');
-        const voiceBadge = document.getElementById('voiceTypeBadge');
+        let activeKey = null;
 
-        let currentActiveKey = null;
-        let isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        let audioMode = 'synth'; // 'synth' (Web Speech API) or 'file' (.wav audio)
-        let isMuted = false;
-        let speechSynth = window.speechSynthesis;
-        let synthUtterance = null;
-        let synthStartTime = 0;
-        let synthTimer = null;
-        let audioContext = null;
-        let isAudioFilterApplied = false;
-
-        function switchRepoTrack(filename) {
-            const index = availableAudioTracks.findIndex(t => t.file === filename);
-            if (index !== -1) currentTrackIndex = index;
-            audio.src = repoBaseUrl + filename;
-            audio.load();
-            if (audioMode === 'file') {
-                updateVoiceBadge();
-                if (document.body.classList.contains('is-playing')) {
-                    playFileAudio();
-                }
-            }
-        }
-
-        function updateVoiceBadge() {
-            if (audioMode === 'synth') {
-                voiceBadge.innerText = 'Source: Browser Voice';
-            } else {
-                const trackName = availableAudioTracks[currentTrackIndex].label.split('.')[0].substring(0, 14);
-                voiceBadge.innerText = `Track: ${trackName}…`;
-            }
-        }
-
-        // Apply Web Audio API Vocal Clarity EQ to remove mud and hiss from file
-        function initAudioProcessing() {
-            if (audioContext || !audio) return;
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                audioContext = new AudioCtx();
-                const sourceNode = audioContext.createMediaElementSource(audio);
-
-                // High-pass filter to eliminate sub-rumble and mic thumps
-                const highPass = audioContext.createBiquadFilter();
-                highPass.type = 'highpass';
-                highPass.frequency.value = 85;
-
-                // Peaking filter to enhance vocal presence & consonants
-                const presenceFilter = audioContext.createBiquadFilter();
-                presenceFilter.type = 'peaking';
-                presenceFilter.frequency.value = 2800;
-                presenceFilter.gain.value = 3.5;
-                presenceFilter.Q.value = 1.0;
-
-                // Dynamics compressor to even out harsh volume peaks
-                const compressor = audioContext.createDynamicsCompressor();
-                compressor.threshold.setValueAtTime(-24, audioContext.currentTime);
-                compressor.knee.setValueAtTime(30, audioContext.currentTime);
-                compressor.ratio.setValueAtTime(4, audioContext.currentTime);
-                compressor.attack.setValueAtTime(0.003, audioContext.currentTime);
-                compressor.release.setValueAtTime(0.25, audioContext.currentTime);
-
-                sourceNode.connect(highPass);
-                highPass.connect(presenceFilter);
-                presenceFilter.connect(compressor);
-                compressor.connect(audioContext.destination);
-                isAudioFilterApplied = true;
-            } catch (err) {
-                console.warn("Web Audio API processing unavailable; standard playback will be used.", err);
-            }
-        }
-
-        // Mode Switcher: Synth vs File
-        function setAudioMode(mode) {
-            audioMode = mode;
-            updateVoiceBadge();
-        }
-
-        function cycleAudioSource() {
-            stopAllAudio();
-            if (audioMode === 'synth') {
-                setAudioMode('file');
-                playFileAudio();
-            } else {
-                // Cycle between repo audio files or back to synth
-                currentTrackIndex++;
-                if (currentTrackIndex >= availableAudioTracks.length) {
-                    currentTrackIndex = 0;
-                    setAudioMode('synth');
-                    playSynthNarration();
-                } else {
-                    const nextFile = availableAudioTracks[currentTrackIndex].file;
-                    document.getElementById('repoAudioSelect').value = nextFile;
-                    switchRepoTrack(nextFile);
-                    playFileAudio();
-                }
-            }
-            updateVoiceBadge();
-        }
-
-        function stopAllAudio() {
-            if (speechSynth) speechSynth.cancel();
-            if (synthTimer) clearInterval(synthTimer);
-            if (audio) {
-                audio.pause();
-            }
-        }
-
-        // Play synthetic neural speech
-        function playSynthNarration() {
-            if (!speechSynth) return;
-            speechSynth.cancel();
-            if (isMuted) return;
-
-            const fullText = narrativeSegments.map(s => s.text).join(' ');
-            synthUtterance = new SpeechSynthesisUtterance(fullText);
-            synthUtterance.rate = 0.92; // Calm, clinical pacing
-            synthUtterance.pitch = 1.0;
-
-            // Pick a high quality natural UK/English voice if present
-            const voices = speechSynth.getVoices();
-            const preferredVoice = voices.find(v => (v.lang.startsWith('en-GB') || v.lang.startsWith('en')) && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Siri') || v.name.includes('Daniel') || v.name.includes('George')));
-            if (preferredVoice) {
-                synthUtterance.voice = preferredVoice;
-            }
-
-            captionContainer.classList.remove('opacity-0');
-            synthStartTime = performance.now();
-
-            synthTimer = setInterval(() => {
-                const elapsed = (performance.now() - synthStartTime) / 1000;
-                updateCaptions(elapsed);
-                if (elapsed > 26) {
-                    clearInterval(synthTimer);
-                    captionContainer.classList.add('opacity-0');
-                }
-            }, 250);
-
-            synthUtterance.onend = () => {
-                clearInterval(synthTimer);
-                captionContainer.classList.add('opacity-0');
-            };
-
-            speechSynth.speak(synthUtterance);
-        }
-
-        // Play recorded audio file with live captions
-        function playFileAudio() {
-            if (!audio) return;
-            if (audioContext && audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-            initAudioProcessing();
-            audio.currentTime = 0;
-            captionContainer.classList.remove('opacity-0');
-
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(e => {
-                    console.warn("Autoplay restricted by browser; user can start manually.", e);
-                    setPlayIconState(true);
-                });
-            }
-
-            audio.ontimeupdate = () => {
-                updateCaptions(audio.currentTime);
-            };
-
-            audio.onended = () => {
-                captionContainer.classList.add('opacity-0');
-                setPlayIconState(true);
-            };
-        }
-
-        function updateCaptions(currentTime) {
-            const currentSegment = narrativeSegments.find(s => currentTime >= s.start && currentTime <= s.end);
-            if (currentSegment) {
-                captionText.innerText = `"${currentSegment.text}"`;
-            }
-        }
-
-        function setPlayIconState(isPaused) {
-            document.getElementById('playIcon').classList.toggle('hidden', !isPaused);
-            document.getElementById('pauseIcon').classList.toggle('hidden', isPaused);
-            document.getElementById('playPauseLabel').innerText = isPaused ? 'Play' : 'Pause';
-        }
-
-        function togglePlayPause() {
-            if (audioMode === 'file') {
-                if (audio.paused) {
-                    audio.play();
-                    setPlayIconState(false);
-                } else {
-                    audio.pause();
-                    setPlayIconState(true);
-                }
-            } else {
-                if (speechSynth.speaking && !speechSynth.paused) {
-                    speechSynth.pause();
-                    setPlayIconState(true);
-                } else if (speechSynth.paused) {
-                    speechSynth.resume();
-                    setPlayIconState(false);
-                } else {
-                    playSynthNarration();
-                    setPlayIconState(false);
-                }
-            }
-        }
-
-        function toggleMute() {
-            isMuted = !isMuted;
-            if (audio) audio.muted = isMuted;
-            if (isMuted && speechSynth) speechSynth.cancel();
-            document.getElementById('muteLabel').innerText = isMuted ? 'Unmute' : 'Mute';
-            document.getElementById('volIcon').classList.toggle('opacity-40', isMuted);
-        }
-
-        function skipAudio() {
-            stopAllAudio();
-            document.body.classList.add('skip-delay');
-            captionContainer.classList.add('opacity-0');
-            setPlayIconState(true);
-        }
-
-        function replayExperience() {
-            hideData(true);
-            document.body.classList.remove('skip-delay');
-            document.body.classList.remove('is-playing');
-            void document.body.offsetWidth;
-            startExperience();
-        }
-
-        function startExperience() {
-            const overlay = document.getElementById('startOverlay');
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
-            setTimeout(() => { overlay.style.display = 'none'; }, 500);
-
-            document.body.classList.add('is-playing');
-            document.getElementById('bottomControls').classList.remove('opacity-0');
-            setPlayIconState(false);
-
-            if (audioMode === 'synth') {
-                playSynthNarration();
-            } else {
-                playFileAudio();
-            }
-        }
-
-        function showData(key, side = 'right', triggerEl = null) {
+        function showData(key, side = 'right') {
             const data = details[key];
             if (!data) return;
-
-            document.querySelectorAll('.label-driver').forEach(el => el.classList.remove('active-driver'));
-            if (triggerEl) triggerEl.classList.add('active-driver');
 
             panel.classList.remove('on-left', 'on-right');
             panel.classList.add(side === 'left' ? 'on-left' : 'on-right');
 
             heading.innerText = data.title;
-            list.innerHTML = data.items.map(item => `
-                <li class="flex items-start gap-2.5">
-                    <span class="inline-block w-2 h-2 rounded-full bg-[#004b8d] mt-2 flex-shrink-0"></span>
-                    <span>${item}</span>
-                </li>
-            `).join('');
-
+            list.innerHTML = data.items.map(item => `<li>${item}</li>`).join('');
             panel.classList.add('active');
-            currentActiveKey = key;
+            activeKey = key;
         }
 
-        function hideData(force = false) {
+        function hideData() {
             panel.classList.remove('active');
-            document.querySelectorAll('.label-driver').forEach(el => el.classList.remove('active-driver'));
-            currentActiveKey = null;
+            activeKey = null;
         }
 
-        function toggleData(key, side, element) {
-            if (currentActiveKey === key && panel.classList.contains('active')) {
+        function toggleData(key, side, el) {
+            if (activeKey === key && panel.classList.contains('active')) {
                 hideData();
             } else {
-                showData(key, side, element);
+                showData(key, side);
             }
         }
 
-        function handleHover(key, side, element) {
-            if (isTouchDevice) return;
-            showData(key, side, element);
+        function toggleMute() {
+            audio.muted = !audio.muted;
+            document.getElementById('muteToggle').innerText = audio.muted ? 'Unmute Audio' : 'Mute Audio';
         }
 
-        document.getElementById('stage').addEventListener('mouseleave', () => {
-            if (!isTouchDevice) hideData();
-        });
+        function skipAudio() {
+            audio.pause();
+            audio.currentTime = 0;
+            document.body.classList.add('skip-delay');
+        }
 
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                hideData(true);
-            } else if (e.code === 'Space' && e.target === document.body) {
-                e.preventDefault();
-                togglePlayPause();
+        function startExperience() {
+            const overlay = document.getElementById('startOverlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; }, 500);
+
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(e => console.warn("Audio play prevented:", e));
             }
-        });
+            document.body.classList.add('is-playing');
+        }
     </script>
 </body>
 </html>
